@@ -10,22 +10,6 @@ jobs:
   ask-ai:
     runs-on: ubuntu-latest
     steps:
-      - name: Diagnose GitHub Models API
-        continue-on-error: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          curl -sS -D headers.txt -o body.txt -w "HTTP status: %{http_code}\n" \
-            -X POST https://models.github.ai/inference/chat/completions \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -H "Accept: application/json" \
-            -d '{"model": "openai/gpt-4o-mini", "messages": [{"role": "user", "content": "Say hi"}]}'
-          echo "--- Response headers ---"
-          cat headers.txt
-          echo "--- Response body ---"
-          cat body.txt
-
       - name: AI Inference
         id: ai-response
         uses: actions/ai-inference@v2
